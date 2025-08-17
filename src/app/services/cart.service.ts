@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {Observable, switchMap, tap} from 'rxjs';
 import {Cart} from '../models/cart';
 import {CartItem} from '../models/cartItem';
 import {Order} from '../models/order';
@@ -54,6 +54,14 @@ export class CartService {
   checkout(userId: number): Observable<Order> {
     return this.http.post<Order>(`${this.apiUrl}/checkout`, null, {
       params: { userId: userId.toString() }
-    });
+    }).pipe(
+      tap(order => {
+        console.log('Order created:', order);
+        // Vérifiez que les items sont bien dans la réponse
+        if (!order.items || order.items.length === 0) {
+          console.warn('Order created without items!');
+        }
+      })
+    );
   }
 }

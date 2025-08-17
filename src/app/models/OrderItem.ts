@@ -1,7 +1,9 @@
 export interface OrderItem {
+  id: number; // Ajouté pour correspondre au backend
   productId: number;
-  productName: string;
+  productName: string; // Optionnel
   quantity: number;
-  unitPrice: number;
-  totalPrice: number;
+  unitPrice: number; // Optionnel - sera calculé côté backend
+  price: number; // Optionnel - sera calculé côté backend
+  orderId:number;
 }

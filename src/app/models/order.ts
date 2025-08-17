@@ -1,5 +1,6 @@
 import {OrderItem} from './OrderItem';
 import {OrderStatus} from './orderStatus';
+import {PaymentMethod} from './PaymentMethod';
 
 export interface Order {
   id: number;
@@ -8,5 +9,5 @@ export interface Order {
   totalAmount: number;
   status: OrderStatus;
   orderDate: string;
-  paymentMethod?: string;
+  paymentMethod?: PaymentMethod
 }

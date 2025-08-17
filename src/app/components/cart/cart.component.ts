@@ -4,6 +4,7 @@ import { OrderService } from '../../services/order.service';
 import { Router } from '@angular/router';
 import {Cart} from '../../models/cart';
 import {CommonModule, CurrencyPipe} from '@angular/common';
+import {Product} from '../../models/product';
 
 @Component({
   selector: 'app-cart',
@@ -17,7 +18,7 @@ import {CommonModule, CurrencyPipe} from '@angular/common';
 export class CartComponent implements OnInit {
   cart: Cart | null = null;
   currentUserId = 1; // À remplacer par l'ID de l'utilisateur connecté
-
+  product?:Product;
   constructor(
     private cartService: CartService,
     private orderService: OrderService,
@@ -54,7 +55,6 @@ export class CartComponent implements OnInit {
       error: (err) => console.error('Erreur lors de la suppression de l\'article', err)
     });
   }
-
   checkout(): void {
     this.cartService.checkout(this.currentUserId).subscribe({
       next: (order) => {

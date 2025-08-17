@@ -1,10 +1,11 @@
 import {PaymentStatus} from './PaymentStatus';
+import {PaymentMethod} from './PaymentMethod';
 
 export interface Payment {
   id: number;
   orderId: number; // Uniquement lié à une commande
   amount: number;
-  paymentMethod: string;
+  paymentMethod: PaymentMethod;
   status: PaymentStatus;
   transactionId: string;
   currency: string;
