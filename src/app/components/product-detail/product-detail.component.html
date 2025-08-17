@@ -1,0 +1,65 @@
+<div class="container mt-4" *ngIf="product">
+  <div class="row">
+    <div class="col-md-6">
+      <img [src]="product.imageUrl ? 'http://localhost:8080/api/products'+product.imageUrl : 'assets/images/placeholder.png'"           class="img-fluid rounded"
+           alt="{{product.name}}">
+    </div>
+    <div class="col-md-6">
+      <h2>{{product.name}}</h2>
+      <p class="text-muted" *ngIf="product.categoryName">
+        {{product.categoryName}}
+      </p>
+      <p class="display-6 text-primary">
+        {{product.price | currency:'EUR':'symbol':'1.2-2'}}
+      </p>
+      <p class="text-muted" *ngIf="product.quantity">
+        {{product.quantity}} disponibles
+      </p>
+      <p>{{product.description}}</p>
+
+      <div class="d-flex align-items-center mb-3">
+        <label class="me-2">Quantité:</label>
+        <input type="number" class="form-control me-3" style="width: 80px;"
+               [(ngModel)]="quantity" min="1" [max]="product.quantity">
+      </div>
+
+      <button class="btn btn-primary btn-lg"
+              (click)="addToCart()"
+              [disabled]="!product.quantity">
+        {{product.quantity ? 'Ajouter au panier' : 'En rupture'}}
+      </button>
+    </div>
+  </div>
+  <!-- product-detail.component.html -->
+  <div class="container mt-4" *ngIf="product">
+    <!-- ... section produit existante ... -->
+
+    <!-- Nouvelle section reviews -->
+    <div class="mt-5">
+      <h3>Avis clients</h3>
+
+      <div *ngIf="reviews.length > 0; else noReviews">
+        <div class="card mb-3" *ngFor="let review of reviews">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <h5 class="card-title">
+                {{review.userName || 'Anonyme'}}
+              </h5>
+              <div class="text-warning">
+                {{generateStars(review.rating)}}
+              </div>
+            </div>
+            <p class="card-text">{{review.comment}}</p>
+            <small class="text-muted">
+              {{review.createdAt | date:'dd/MM/yyyy'}}
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noReviews>
+        <p class="text-muted">Aucun avis pour ce produit</p>
+      </ng-template>
+    </div>
+  </div>
+</div>

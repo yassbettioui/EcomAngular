@@ -1,0 +1,22 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th>Product</th>
+    <th>Quantity</th>
+    <th>Unit Price</th>
+    <th>Total</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let item of order?.items">
+    <td>{{ item.productName || 'Product ' + item.productId }}</td>
+    <td>{{ item.quantity }}</td>
+    <td>{{ item.unitPrice | currency }}</td>
+    <td>{{ (item.unitPrice * item.quantity) | currency }}</td>
+  </tr>
+  <tr class="table-secondary">
+    <td colspan="3" class="text-end"><strong>Order Total:</strong></td>
+    <td><strong>{{ order?.totalAmount | currency }}</strong></td>
+  </tr>
+  </tbody>
+</table>

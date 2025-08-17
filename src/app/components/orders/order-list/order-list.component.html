@@ -1,0 +1,43 @@
+<div class="container">
+  <h2>Order Management</h2>
+
+  <div *ngIf="loading" class="alert alert-info">Loading orders...</div>
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <table class="table" *ngIf="!loading && orders.length">
+    <thead>
+    <tr>
+      <th>Order ID</th>
+      <th>Date</th>
+      <th>Customer</th>
+      <th>Total</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let order of orders">
+      <td>{{ order.id }}</td>
+      <td>{{ order.orderDate | date }}</td>
+      <td>{{ order.customerId }}</td>
+      <td>{{ order.totalAmount | currency }}</td>
+      <td>
+        <select [(ngModel)]="order.status"
+                (change)="updateStatus(order, order.status)"
+                class="form-select">
+          <option *ngFor="let status of getStatuses()" [value]="status">
+            {{ status }}
+          </option>
+        </select>
+      </td>
+      <td>
+        <a [routerLink]="['/orders', order.id]" class="btn btn-info btn-sm">View</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && !orders.length" class="alert alert-warning">
+    No orders found
+  </div>
+</div>

@@ -1,0 +1,50 @@
+<div class="container mt-4">
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <h2>Nos Produits</h2>
+    </div>
+    <div class="col-md-6">
+      <select class="form-select" (change)="onCategoryChange($event)">
+        <option value="">Toutes les catégories</option>
+        <option *ngFor="let category of categories" [value]="category.id">
+          {{category.name}}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let product of filteredProducts">
+      <div class="card h-100">
+        <img [src]="product.imageUrl ? 'http://localhost:8080/api/products'+product.imageUrl : 'assets/images/placeholder.png'"
+             class="card-img-top"
+             alt="{{product.imageUrl}}"
+             style="height: 200px; object-fit: cover;">
+        <div class="card-body">
+          <h5 class="card-title">{{product.name}}</h5>
+          <p class="card-text text-muted" *ngIf="product.categoryName">
+            {{product.categoryName}}
+          </p>
+          <p class="card-text">{{product.description}}</p>
+          <p class="text-primary fw-bold">
+            {{product.price | currency:'EUR':'symbol':'1.2-2'}}
+            <span *ngIf="product.quantity" class="text-muted small ms-2">
+              ({{product.quantity}} disponibles)
+            </span>
+          </p>
+        </div>
+        <div class="card-footer bg-transparent">
+          <a [routerLink]="['/product', product.id]"
+             class="btn btn-outline-primary me-2">
+            Détails
+          </a>
+          <button class="btn btn-primary"
+                  (click)="addToCart(product.id)"
+                  [disabled]="!product.quantity">
+            {{product.quantity ? 'Ajouter au panier' : 'En rupture'}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

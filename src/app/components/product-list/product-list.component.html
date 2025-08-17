@@ -1,0 +1,49 @@
+<div class="container">
+  <h2>Product List</h2>
+
+  <a routerLink="/products/add" class="btn btn-primary">Add Product</a>
+
+  <div class="filters">
+    <input type="text" [(ngModel)]="searchText" placeholder="Search products..." (input)="applyFilters()">
+
+    <select [(ngModel)]="sortField" (change)="applyFilters()">
+      <option value="name">Sort by Name</option>
+      <option value="price">Sort by Price</option>
+      <option value="quantity">Sort by Quantity</option>
+    </select>
+
+    <select [(ngModel)]="sortDirection" (change)="applyFilters()">
+      <option value="asc">Ascending</option>
+      <option value="desc">Descending</option>
+    </select>
+  </div>
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Quantity</th>
+      <th>Category</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let product of paginatedProducts()">
+      <td>{{ product.name }}</td>
+      <td>{{ product.price | currency }}</td>
+      <td>{{ product.quantity }}</td>
+      <td>{{ product.categoryName }}</td>
+      <td>
+        <a [routerLink]="['/products', product.id]" class="btn btn-info">Edit</a>
+        <button (click)="deleteProduct(product.id!)" class="btn btn-danger">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{currentPage}} of {{totalPages()}}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages()">Next</button>
+  </div>
+</div>

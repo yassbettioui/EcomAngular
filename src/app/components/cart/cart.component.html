@@ -1,0 +1,40 @@
+<div class="container mt-4">
+  <h2>Mon Panier</h2>
+
+  <div *ngIf="cart">
+    <div class="card mb-3" *ngFor="let item of cart.items">
+      <div class="row g-0">
+        <div class="col-md-2">
+          <img [src]="item.productImage ? 'http://localhost:8080/api/products'+item.productImage : 'assets/images/placeholder.png'"
+               class="img-fluid rounded-start" alt="{{item.productName}}">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{item.productName}}</h5>
+            <p class="card-text">{{item.unitPrice | currency:'EUR':'symbol':'1.2-2'}}</p>
+            <div class="d-flex align-items-center">
+              <button class="btn btn-sm btn-outline-secondary" (click)="updateQuantity(item.productId, item.quantity - 1)">-</button>
+              <span class="mx-2">{{item.quantity}}</span>
+              <button class="btn btn-sm btn-outline-secondary" (click)="updateQuantity(item.productId, item.quantity + 1)">+</button>
+              <button class="btn btn-sm btn-danger ms-3" (click)="removeItem(item.productId)">
+                <i class="bi bi-trash"></i> Supprimer
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 d-flex align-items-center justify-content-end">
+          <p class="card-text fw-bold">{{item.price | currency:'EUR':'symbol':'1.2-2'}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-end mt-4">
+      <h4>Total: {{cart.totalPrice | currency:'EUR':'symbol':'1.2-2'}}</h4>
+      <button class="btn btn-success btn-lg" (click)="checkout()">Passer la commande</button>
+    </div>
+  </div>
+
+  <div *ngIf="!cart || cart.items.length === 0" class="alert alert-info">
+    Votre panier est vide
+  </div>
+</div>
